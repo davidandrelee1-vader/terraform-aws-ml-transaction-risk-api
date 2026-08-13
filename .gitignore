@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+model/*.joblib
+data/*.csv
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.env
+
+.venv/
+*.tfplan
+tfplan
+crash.log
