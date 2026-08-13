@@ -4,21 +4,21 @@ An end-to-end machine-learning portfolio project that trains a transaction-risk 
 
 ## Architecture
 
-```text
-Client
-  |
-  v
-AWS Lambda Function URL
-  |
-  v
-AWS Lambda Web Adapter
-  |
-  v
-FastAPI Prediction API
-  |
-  v
-Scikit-learn Transaction Risk Model
+```mermaid
+flowchart LR
+    Client([Client]) --> URL[AWS Lambda<br/>Function URL]
+    URL --> Adapter[Lambda Web Adapter]
+    Adapter --> API[FastAPI<br/>/health · /predict]
+    API --> Model[Scikit-learn<br/>Risk Model]
+
+    ECR[(Amazon ECR)] -. container image .-> Adapter
+    S3[(Amazon S3)] -. model artifact .-> Model
+    IAM[AWS IAM] -. permissions .-> URL
+    API -. logs .-> CW[CloudWatch]
+    Budget[AWS Budgets] -. cost alerts .-> URL
 ```
+
+Requests enter through an AWS Lambda Function URL, pass through the Lambda Web Adapter to FastAPI, and are scored by the packaged scikit-learn model. Terraform manages the supporting AWS resources.
 
 Supporting services:
 
